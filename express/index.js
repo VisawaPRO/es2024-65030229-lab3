@@ -1,23 +1,23 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser'); // Add body-parser to handle JSON payloads
+const bodyParser = require('body-parser'); // Middleware to handle JSON payloads
 const app = express();
 const port = 3000;
 
 // MongoDB connection
-const mongoUri = process.env.MONGO_URI;
+const mongoUri = process.env.MONGO_URI; // Ensure your MONGO_URI environment variable is set
 mongoose.connect(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('Failed to connect to MongoDB', err));
 
 // Define a schema and model for Student
 const StudentSchema = new mongoose.Schema({
-  studentCode: String,
-  firstName: String,
-  lastName: String,
-  telNumber: String,
-  age: Number,
-  email: String
+  studentCode: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  telNumber: { type: String, required: true }, // Added telNumber field
+  age: { type: Number, required: true },
+  email: { type: String, required: true }
 });
 const Student = mongoose.model('Student', StudentSchema);
 
@@ -77,4 +77,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`Express app listening at http://localhost:${port}`);
 });
-
